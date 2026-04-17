@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prostavěnost RD Kunín č.p. 393</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏗️</text></svg>">
+<style>
+*{box-sizing:border-box;margin:0}body{font-family:system-ui,-apple-system,sans-serif;background:#0c1021;color:#dfe6f0;min-height:100vh}
+::-webkit-scrollbar{width:4px;height:4px}::-webkit-scrollbar-thumb{background:#334155;border-radius:2px}select{appearance:none}input::placeholder{color:#475569}
+#root{min-height:100vh}.ld{display:flex;align-items:center;justify-content:center;min-height:100vh;flex-direction:column;gap:12px;color:#64748b}
+.sp{width:32px;height:32px;border:3px solid #1e2a42;border-top-color:#60a5fa;border-radius:50%;animation:spin 1s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="root"><div class="ld"><div class="sp"></div><div style="font-size:13px">Načítám...</div></div></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.12.7/Recharts.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+<script type="text/babel">
+const {useState,useEffect,useMemo,useRef,useCallback}=React;
+const {BarChart,Bar,XAxis,YAxis,Tooltip,ResponsiveContainer,Cell,PieChart,Pie,Legend}=Recharts;
+const AUTH={budget:3538867,p1:507958,p2:442829,p3:368311,cum:1319097,byObj:{"VRN":{budget:175000,p1:52500,p2:54000,p3:0},"03-Int":{budget:1778358,p1:381919,p2:376861,p3:368311},"04-Ext":{budget:1585509,p1:73538,p2:11968,p3:0}}};
+const D_A=[
+{s:"VRN",d:"Zařízení staveniště",b:15000.0,p1:4500.0,p2:6000.0,p3:0,st:"partial"},
+{s:"VRN",d:"Mimostaveništní doprava materiálů, výrobků a strojů",b:70000.0,p1:21000.0,p2:21000.0,p3:0,st:"partial"},
+{s:"VRN",d:"Denní doprava pracovníků na pracoviště",b:90000.0,p1:27000.0,p2:27000.0,p3:0,st:"partial"},
+{s:"03-Int",d:"Distanční lišty výztuže základových desek",b:1652.4,p1:1760.4,p2:0,p3:0,st:"viceprace"},
+{s:"03-Int",d:"Základové desky ze ŽB bez zvýšených nároků na prostředí tř. C 20/25",b:12034.98,p1:13608.18,p2:0,p3:0,st:"viceprace"},
+{s:"03-Int",d:"Výztuž základových desek svařovanými sítěmi Kari",b:8158.8,p1:8158.8,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Výztuž základových pasů betonářskou ocelí 10 505 (R)",b:3753.6,p1:3753.6,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Zazdívka otvorů ve zdivu nadzákladovém pl do 1 m2 cihlami děrovanými broušenými ",b:14057.1,p1:14057.1,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Válcované nosníky výšky do 120 mm dodatečně osazované do připravených otvorů",b:3505.53,p1:3505.53,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Válcované nosníky výšky přes 120 do 240 mm dodatečně osazované do připravených o",b:21780.86,p1:21780.86,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Plentování jednostranné v do 200 mm válcovaných nosníků cihlami",b:5452.18,p1:0,p2:5452.18,p3:0,st:"done"},
+{s:"03-Int",d:"Montáž kontaktního zateplení vnějších podhledů lepením a mechanickým kotvením po",b:15211.45,p1:15211.45,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Sádrová nebo vápenosádrová omítka hladká jednovrstvá vnitřních stěn nanášená str",b:158852.88,p1:0,p2:0,p3:206911.88,st:"viceprace"},
+{s:"03-Int",d:"Příplatek k omítce za přípravu pro zapušťený sokl podlahové krytiny",b:10089.1,p1:0,p2:0,p3:10089.1,st:"done"},
+{s:"03-Int",d:"Sádrová nebo vápenosádrová omítka hladká jednovrstvá vnitřních špalet",b:31694.2,p1:0,p2:0,p3:31694.2,st:"done"},
+{s:"03-Int",d:"Penetrační disperzní nátěr vnitřních stěn nanášený ručně",b:31233.09,p1:0,p2:0,p3:31233.09,st:"done"},
+{s:"03-Int",d:"Pletivo sklovláknité vnitřních stěn provizorně přichycené",b:78847.51,p1:0,p2:0,p3:66244.97,st:"partial"},
+{s:"03-Int",d:"Záhozy po vodoinstalaci, elektroinstalaci, vytápění",b:15000.0,p1:0,p2:0,p3:15000.0,st:"done"},
+{s:"03-Int",d:"Zakrytí výplní otvorů fólií přilepenou na začišťovací lišty",b:4834.05,p1:0,p2:0,p3:4834.05,st:"done"},
+{s:"03-Int",d:"Lešení pomocné pro objekty pozemních staveb s lešeňovou podlahou v do 1,9 m zatí",b:18690.2,p1:5607.06,p2:5607.06,p3:0,st:"partial"},
+{s:"03-Int",d:"Vyčištění budov bytové a občanské výstavby při výšce podlaží do 4 m",b:56620.62,p1:16986.19,p2:16986.19,p3:0,st:"partial"},
+{s:"03-Int",d:"Vybourání překladů prefabrikovaných",b:3507.0,p1:3507.0,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Vnitrostaveništní doprava suti a vybouraných hmot pro budovy v přes 6 do 9 m s o",b:2354.81,p1:2354.81,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Přesun hmot pro budovy zděné v přes 6 do 12 m",b:23032.56,p1:6909.77,p2:0,p3:2303.26,st:"partial"},
+{s:"03-Int",d:"Provedení izolace proti zemní vlhkosti vodorovné za studena lakem asfaltovým",b:800.19,p1:3265.64,p2:0,p3:0,st:"viceprace"},
+{s:"03-Int",d:"Provedení izolace proti zemní vlhkosti pásy přitavením vodorovné NAIP",b:7706.54,p1:66279.81,p2:0,p3:0,st:"viceprace"},
+{s:"03-Int",d:"Přesun hmot procentní pro izolace proti vodě, vlhkosti a plynům v objektech v př",b:150.57,p1:1085.76,p2:0,p3:0,st:"viceprace"},
+{s:"03-Int",d:"Montáž izolace tepelné vrchem stropů volně kladenými rohožemi, pásy, dílci, desk",b:51037.39,p1:15995.31,p2:30693.95,p3:0,st:"partial"},
+{s:"03-Int",d:"Montáž izolace tepelné spodem stropů s přibitím rohoží, pásů, dílců, desek",b:29647.06,p1:0,p2:29647.06,p3:0,st:"done"},
+{s:"03-Int",d:"Montáž izolace tepelné střech šikmých kladené volně mezi krokve rohoží, pásů, de",b:84528.74,p1:84528.74,p2:0,p3:0,st:"done"},
+{s:"03-Int",d:"Montáž izolace tepelné střech šikmých kladené volně pod krokve rohoží, pásů, des",b:151610.82,p1:0,p2:151610.82,p3:0,st:"done"},
+{s:"03-Int",d:"Přesun hmot procentní pro izolace tepelné v objektech v přes 6 do 12 m",b:6918.27,p1:2075.48,p2:2075.48,p3:0,st:"partial"},
+{s:"03-Int",d:"Montáž stropního trámu z hraněného řeziva průřezové pl do 75 cm2 mezi nosnou kci",b:26046.84,p1:0,p2:26046.84,p3:0,st:"done"},
+{s:"03-Int",d:"Spojovací prostředky pro montáž záklopu, stropnice a podbíjení",b:1345.0,p1:0,p2:1345.0,p3:0,st:"done"},
+{s:"03-Int",d:"Přesun hmot procentní pro kce tesařské v objektech v přes 6 do 12 m",b:840.93,p1:0,p2:840.93,p3:0,st:"done"},
+{s:"03-Int",d:"Montáž parotěsné zábrany do SDK podhledu",b:38796.0,p1:0,p2:38796.0,p3:0,st:"done"},
+{s:"03-Int",d:"Příplatek za vyšší pracnost montáže parotěsné zábrany",b:15000.0,p1:0,p2:15000.0,p3:0,st:"done"},
+{s:"03-Int",d:"Přesun hmot procentní pro konstrukce montované z desek v objektech v přes 6 do 1",b:3019.48,p1:0,p2:603.9,p3:0,st:"partial"},
+{s:"03-Int",d:"Hodinová zúčtovací sazba stavební dělník - nespecifikované položky týkající se n",b:12500.0,p1:0,p2:12500.0,p3:0,st:"done"},
+{s:"03-Int",d:"bude dopřesněno",b:0,p1:0,p2:10000.0,p3:0,st:"manual"},
+{s:"03-Int",d:"POLOŽKY Z BOURACÍCH PRACÍ, KTERÉ NEBYLY ÚČTOVÁNY (POL 23,24)",b:0,p1:11068.0,p2:11800.0,p3:0,st:"manual"},
+{s:"03-Int",d:"Ruční řádek 1192",b:0,p1:0,p2:1200.0,p3:0,st:"manual"},
+{s:"03-Int",d:"Ruční řádek 1193",b:0,p1:0,p2:4000.0,p3:0,st:"manual"},
+{s:"03-Int",d:"DEMONTÁŽ HYDROIZOLACE",b:0,p1:10000.0,p2:0,p3:0,st:"manual"},
+{s:"03-Int",d:"19*1300 - KASTLÍKY",b:0,p1:24700.0,p2:0,p3:0,st:"manual"},
+{s:"03-Int",d:"500*3*2*8 - OTVORY",b:0,p1:24000.0,p2:3500.0,p3:0,st:"manual"},
+{s:"03-Int",d:"2*500*3 - BOURACKY",b:0,p1:3000.0,p2:1800.0,p3:0,st:"manual"},
+{s:"03-Int",d:"80*13*8 - KM",b:0,p1:8320.0,p2:0,p3:0,st:"manual"},
+{s:"03-Int",d:"3*350*8 - OSOBY",b:0,p1:8400.0,p2:0,p3:0,st:"manual"},
+{s:"03-Int",d:"Ruční řádek 1203",b:0,p1:0,p2:3095.4,p3:0,st:"manual"},
+{s:"03-Int",d:"VCP Z KONTROLNÍHO DNE 17.12",b:0,p1:0,p2:4260.0,p3:0,st:"manual"},
+{s:"03-Int",d:"bourání otvorů prahů a desky před vstupem 4h",b:0,p1:2000.0,p2:0,p3:0,st:"manual"},
+{s:"04-Ext",d:"Hloubení jam nezapažených v hornině třídy těžitelnosti I skupiny 3 objem do 100 ",b:24124.58,p1:9150.0,p2:0,p3:0,st:"partial"},
+{s:"04-Ext",d:"Základové pasy z betonu tř. C 20/25",b:3188.36,p1:3188.36,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Příplatek k základový pásům z betonu tř. C 20/25 za odlamování hran stěn výkopu ",b:624.75,p1:624.75,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Navrtavání základových pásů pro vyztužení základové zdi",b:1500.0,p1:1500.0,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Základová zeď tl přes 150 do 200 mm z tvárnic ztraceného bednění včetně výplně z",b:7102.1,p1:7102.1,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Výztuž základových zdí nosných betonářskou ocelí 10 505",b:3682.78,p1:3682.78,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Podsyp pod základové konstrukce se zhutněním z betonového recyklátu",b:15303.12,p1:5000.0,p2:0,p3:0,st:"partial"},
+{s:"04-Ext",d:"Distanční lišty výztuže základových desek",b:257.85,p1:257.85,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Základové desky ze ŽB bez zvýšených nároků na prostředí tř. C 20/25",b:2505.42,p1:5505.42,p2:0,p3:0,st:"viceprace"},
+{s:"04-Ext",d:"Zřízení bednění základových desek",b:1129.74,p1:2790.11,p2:0,p3:0,st:"viceprace"},
+{s:"04-Ext",d:"Odstranění bednění základových desek",b:237.94,p1:237.94,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Výztuž základových desek svařovanými sítěmi Kari",b:1828.36,p1:1828.36,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Provedení izolace proti zemní vlhkosti svislé za studena lakem asfaltovým",b:4927.72,p1:3963.09,p2:-661.03,p3:0,st:"meneprace"},
+{s:"04-Ext",d:"Provedení izolace proti zemní vlhkosti pásy přitavením svislé NAIP",b:35017.38,p1:23287.68,p2:-7762.56,p3:0,st:"meneprace"},
+{s:"04-Ext",d:"Přesun hmot procentní pro izolace proti vodě, vlhkosti a plynům v objektech v př",b:1069.68,p1:1069.68,p2:0,p3:0,st:"done"},
+{s:"04-Ext",d:"Montáž izolace tepelné stěn lepením celoplošně rohoží, pásů, dílců, desek",b:63605.91,p1:0,p2:17891.5,p3:0,st:"partial"},
+{s:"04-Ext",d:"Hodinová zúčtovací sazba stavební dělník - nespecifikované položky týkající se n",b:9000.0,p1:0,p2:2500.0,p3:0,st:"partial"},
+{s:"04-Ext",d:"vnejsí sokl",b:0,p1:2800.0,p2:0,p3:0,st:"manual"},
+{s:"04-Ext",d:"Ruční řádek 669",b:0,p1:1550.0,p2:0,p3:0,st:"manual"},
+{s:"04-Ext",d:"Ruční řádek 672",b:0,p1:0,p2:11967.91,p3:0,st:"manual"}
+];
+const D_Z=[
+{s:"03-Int",d:"Navrtávka do obvodu + chem kotva",b:7500.0},
+{s:"03-Int",d:"Zazdívka otvorů ve zdivu nadzákladovém pl do 1 m2 cihlami děrovanými broušenými ",b:1660.35},
+{s:"03-Int",d:"Zazdívka otvorů ve zdivu nadzákladovém pl do 1 m2 cihlami děrovanými broušenými ",b:5449.23},
+{s:"03-Int",d:"Pletivo sklovláknité vnitřních stěn vtlačené do tmelu",b:23708.1},
+{s:"03-Int",d:"Pletivo sklovláknité vnitřních špalet vtlačené do tmelu",b:1912.32},
+{s:"03-Int",d:"Sádrová nebo vápenosádrová omítka hladká jednovrstvá vnitřních stropů rovných na",b:33869.41},
+{s:"03-Int",d:"Sádrová omítka hladká jednovrstvá vnitřních schodišťových konstrukcí nanášená st",b:2035.89},
+{s:"03-Int",d:"Penetrační disperzní nátěr vnitřních stropů nanášený ručně",b:8470.77},
+{s:"03-Int",d:"Zakrytí konstrukcí a předmětů",b:10000.0},
+{s:"03-Int",d:"Mazanina tl přes 50 do 80 mm z betonu prostého bez zvýšených nároků na prostředí",b:840.47},
+{s:"03-Int",d:"Potěr anhydritový samonivelační litý C25 přes 45 do 50 mm",b:130236.2},
+{s:"03-Int",d:"Příplatek k anhydritovému samonivelačnímu litému potěru C25 ZKD 5 mm tl",b:10713.64},
+{s:"03-Int",d:"Broušení nerovností betonových podlah do 2 mm - stržení šlemu",b:18681.04},
+{s:"03-Int",d:"Vyrovnávací cementový potěr tl přes 20 do 30 mm ze suchých směsí provedený v pás",b:1930.38},
+{s:"03-Int",d:"Obvodová dilatace podlahovým páskem z pěnového PE mezi stěnou a mazaninou nebo p",b:11015.62},
+{s:"03-Int",d:"Osazování zárubní dveřních skrytých do 2,5 m2",b:14950.0},
+{s:"03-Int",d:"Broušení stávajících betonových stupňů schodiště úběr do 3mm",b:6821.52},
+{s:"03-Int",d:"Příplatek k broušení stávajících betonových stupňů schodiště za každý další 1 mm",b:8922.6},
+{s:"03-Int",d:"Jádrové vrty diamantovými korunkami do stavebních materiálů",b:1800.0},
+{s:"03-Int",d:"Montáž izolace tepelné podlah volně kladenými rohožemi, pásy, dílci, deskami 1 v",b:66727.2},
+{s:"03-Int",d:"Montáž izolace tepelné podlah volně kladenými rohožemi, pásy, dílci, deskami 2 v",b:63602.93},
+{s:"03-Int",d:"Vyrovnání podlah pro uložení TI - pískováním, vyžezáváním",b:16253.55},
+{s:"03-Int",d:"Příplatek k montáži izolace tepelné podlah za zvýšenou pracnost",b:13481.0},
+{s:"03-Int",d:"Montáž izolace tepelné podlah, stropů vrchem nebo střech překrytí fólií s přelep",b:20828.3},
+{s:"03-Int",d:"SDK příčka tl 100 mm profil CW+UW 50 desky 2xA 12,5 s izolací EI 60 Rw do 51 dB",b:33699.59},
+{s:"03-Int",d:"SDK příčka tl 125 mm profil CW+UW 75 desky 2xA 12,5 s izolací EI 60 Rw do 53 dB",b:10857.74},
+{s:"03-Int",d:"SDK příčka mezibytová tl 155 mm zdvojený profil CW+UW 50 desky 2x akustická 12,5",b:37537.38},
+{s:"03-Int",d:"SDK stěna předsazená tl 112,5 mm profil CW+UW 100 deska 1xH2 12,5 bez izolace EI",b:8550.11},
+{s:"03-Int",d:"SDK stěna předsazená pro osazení závěsného WC tl 150 - 250 mm profil CW+UW 50 de",b:11525.69},
+{s:"03-Int",d:"SDK podhled desky 1xA 12,5 bez izolace dvouvrstvá spodní kce profil CD+UD",b:93767.56},
+{s:"03-Int",d:"SDK podkroví deska 1xA 12,5 bez izolace jednovrstvá spodní kce profil CD+UD na p",b:102227.52},
+{s:"03-Int",d:"SDK podkroví - opracování kolem střešního okna",b:7500.0},
+{s:"03-Int",d:"Montáž sklápěcích půdních schodů",b:9450.0},
+{s:"03-Int",d:"Montáž nosného dřevěného rámu pro sklápěcí půdní schody",b:2920.0},
+{s:"03-Int",d:"Montáž sklápěcích půdních schodů",b:14255.97},
+{s:"03-Int",d:"Montáž nosného dřevěného rámu pro sklápěcí půdní schody",b:2920.0},
+{s:"03-Int",d:"Hodinová zúčtovací sazba -  nespecifikované položky týkající se naceněných prací",b:11425.0},
+{s:"04-Ext",d:"Hloubení rýh nezapažených š do 800 mm v hornině třídy těžitelnosti I skupiny 3 o",b:1323.0},
+{s:"04-Ext",d:"Vodorovné přemístění přes 20 do 50 m výkopku/sypaniny z horniny třídy těžitelnos",b:6659.71},
+{s:"04-Ext",d:"Nakládání výkopku z hornin třídy těžitelnosti I skupiny 1 až 3 přes 100 m3",b:5993.34},
+{s:"04-Ext",d:"Uložení sypaniny na skládky nebo meziskládky",b:2222.91},
+{s:"04-Ext",d:"Zásyp jam, šachet rýh nebo kolem objektů sypaninou se zhutněním",b:12990.16},
+{s:"04-Ext",d:"Montáž kontaktního zateplení vnějších podhledů lepením a mechanickým kotvením de",b:5201.03},
+{s:"04-Ext",d:"Zakrytí výplní otvorů fólií přilepenou na začišťovací lišty",b:1980.06},
+{s:"04-Ext",d:"Penetrační nátěr vnějších stěn nanášený ručně",b:16417.15},
+{s:"04-Ext",d:"Očištění vnějších ploch čističem s následným omytím tlakovou vodou",b:11963.76},
+{s:"04-Ext",d:"Provedení adhezního můstku",b:21169.05},
+{s:"04-Ext",d:"Montáž kontaktního zateplení vnějších podhledů lepením a mechanickým kotvením po",b:121866.71},
+{s:"04-Ext",d:"Montáž kontaktního zateplení vnějších podhledů lepením a mechanickým kotvením po",b:15754.48},
+{s:"04-Ext",d:"Montáž kontaktního zateplení vnějších stěn lepením a mechanickým kotvením polyst",b:3734.18},
+{s:"04-Ext",d:"Montáž  kontaktního zateplení lepením a kotvením kotvy s přerušeným tepelným mos",b:437711.93},
+{s:"04-Ext",d:"Montáž kontaktního zateplení vnějšího ostění, nadpraží nebo parapetu hl. špalety",b:29558.51},
+{s:"04-Ext",d:"Sklovláknité pletivo vnějších stěn vtlačené do tmelu",b:7296.26},
+{s:"04-Ext",d:"D+M Vyspádování pod vnější parapety z EPS s přestěrkováním tmelem a vyztužením s",b:7952.0},
+{s:"04-Ext",d:"Montáž profilů kontaktního zateplení",b:18000.0},
+{s:"04-Ext",d:"Úprava zateplovacího a pojezdového systému u předokenních žaluzií",b:65100.0},
+{s:"04-Ext",d:"Penetrační silikátový nátěr vnějších pastovitých tenkovrstvých omítek podhledů",b:7329.9},
+{s:"04-Ext",d:"Penetrační silikátový nátěr vnějších pastovitých tenkovrstvých omítek stěn",b:17865.53},
+{s:"04-Ext",d:"Penetrační silikátový nátěr vnějších pastovitých tenkovrstvých omítek špalet",b:1737.43},
+{s:"04-Ext",d:"Tenkovrstvá silikonová zatíraná omítka zrnitost 1,5 mm vnějších podhledů",b:49892.7},
+{s:"04-Ext",d:"Tenkovrstvá silikonová zatíraná omítka zrnitost 1,5 mm vnějších stěn",b:125676.59},
+{s:"04-Ext",d:"Tenkovrstvá silikonová zrnitá omítka zrnitost 1,5 mm vnějších špalet",b:13782.75},
+{s:"04-Ext",d:"Mazanina tl přes 80 do 120 mm z betonu prostého bez zvýšených nároků na prostřed",b:3258.56},
+{s:"04-Ext",d:"Montáž lešení řadového rámového lehkého zatížení do 200 kg/m2 š od 0,6 do 0,9 m ",b:26675.11},
+{s:"04-Ext",d:"Příplatek k lešení řadovému rámovému lehkému do 200 kg/m2 š od 0,6 do 0,9 m v do",b:46193.78},
+{s:"04-Ext",d:"Demontáž lešení řadového rámového lehkého zatížení do 200 kg/m2 š od 0,6 do 0,9 ",b:16279.52},
+{s:"04-Ext",d:"Montáž ochranné sítě z textilie z umělých vláken",b:7753.08},
+{s:"04-Ext",d:"Příplatek k ochranné síti za každý den použití",b:4414.99},
+{s:"04-Ext",d:"Dovoz a odvoz lešení řadového do 10 km včetně naložení a složení",b:13961.85},
+{s:"04-Ext",d:"Příplatek k ceně dovozu a odvozu lešení řadového ZKD 10 km přes 10 km",b:6799.42},
+{s:"04-Ext",d:"Srovnání původního zdiva pro instalaci hydroizolace",b:5000.0},
+{s:"04-Ext",d:"Provedení izolace proti zemní vlhkosti svislé z nopové fólie výška nopu do 20 mm",b:15488.74},
+{s:"04-Ext",d:"Hromosvod pro RD - odhad",b:75000.0},
+{s:"04-Ext",d:"Montáž podbíjení střech šikmých vnějšího přesahu š přes 0,8 m z palubek včetně p",b:134151.75},
+{s:"04-Ext",d:"D+M Oplechování parapetů rovných celoplošně lepené z Al plechu",b:40896.0},
+{s:"04-Ext",d:"Přesun hmot procentní pro konstrukce klempířské v objektech v přes 6 do 12 m",b:351.71},
+{s:"04-Ext",d:"Hodinová zúčtovací sazba - nespecifikované položky týkající se naceněných prací",b:5000.0}
+];
+function initItems(){const i=[...D_A];D_Z.forEach(z=>i.push({s:z.s,d:z.d,b:z.b,p1:0,p2:0,p3:0,st:"zero"}));return i;}
+function gc(ws,r,c){const a=XLSX.utils.encode_cell({r,c});const cl=ws[a];return cl?cl.v:null;}
+function gn(ws,r,c){const v=gc(ws,r,c);return typeof v==="number"?v:0;}
+function gs(ws,r,c){const v=gc(ws,r,c);return v!=null?String(v).trim():"";}
+function parseXlsx(wb){let ad=null;const rk=wb.Sheets["Rekapitulace stavby"];if(rk){const pC=[];for(let c=50;c<90;c++){const v=gs(rk,91,c);if(v.includes("Prostavěnost"))pC.push({h:c,v:c+1,l:v});}if(pC.length>0){const om={"00":"VRN","03":"03-Int","04":"04-Ext"};const bo={};let tb=0;for(let ri=94;ri<=100;ri++){const code=gs(rk,ri,3);const lb=om[code];if(!lb)continue;const b=gn(rk,ri,32);tb+=b;const e={budget:Math.round(b)};pC.forEach((pc,pi)=>{e["p"+(pi+1)]=Math.round(gn(rk,ri,pc.v));});bo[lb]=e;}let cum=0;const t={budget:Math.round(tb),byObj:bo,periods:pC.map(p=>p.l)};pC.forEach((pc,pi)=>{const v=Math.round(gn(rk,103,pc.v));t["p"+(pi+1)]=v;cum+=v;});t.cum=cum;ad=t;}}const cfgs=[];wb.SheetNames.forEach(n=>{if(n.startsWith("00"))cfgs.push({name:n,label:"VRN",pCols:[24,28]});else if(n.startsWith("03"))cfgs.push({name:n,label:"03-Int",pCols:[23,27]});else if(n.startsWith("04"))cfgs.push({name:n,label:"04-Ext",pCols:[23,27]});});if(!cfgs.length)return null;cfgs.forEach(cfg=>{const ws=wb.Sheets[cfg.name];if(!ws||!ws["!ref"])return;const rng=XLSX.utils.decode_range(ws["!ref"]);for(let c=30;c<45;c++){if(gn(ws,rng.e.r,c)>100){cfg.pCols.push(c);break;}}});const items=[];cfgs.forEach(cfg=>{const ws=wb.Sheets[cfg.name];if(!ws||!ws["!ref"])return;const mx=XLSX.utils.decode_range(ws["!ref"]).e.r;let ck=null;for(let r=10;r<mx;r++){const typ=gs(ws,r,3),desc=gs(ws,r,5).slice(0,80),bv=gn(ws,r,9);const pv=cfg.pCols.map(c=>gn(ws,r,c));const p1=pv[0]||0,p2=pv[1]||0,p3=pv[2]||0;if(typ==="K"){if(ck&&(ck.p1||ck.p2||ck.p3||ck.b>0))items.push(ck);ck={s:cfg.label,d:desc,b:Math.round(bv*100)/100,p1:Math.round(p1*100)/100,p2:Math.round(p2*100)/100,p3:Math.round(p3*100)/100};}else if((typ==="M"||typ==="VV")&&ck){ck.b=Math.round((ck.b+bv)*100)/100;ck.p1=Math.round((ck.p1+p1)*100)/100;ck.p2=Math.round((ck.p2+p2)*100)/100;ck.p3=Math.round((ck.p3+p3)*100)/100;}else if(p1||p2||p3){if(ck&&(ck.p1||ck.p2||ck.p3||ck.b>0)){items.push(ck);ck=null;}let note="";[24,28,34,5,4].forEach(nc=>{if(!note){const nv=gs(ws,r,nc);if(nv&&!nv.startsWith("="))note=nv.slice(0,80);}});items.push({s:cfg.label,d:note||("Ř."+(r+1)),b:0,p1:Math.round(p1*100)/100,p2:Math.round(p2*100)/100,p3:Math.round(p3*100)/100});}}if(ck&&(ck.p1||ck.p2||ck.p3||ck.b>0))items.push(ck);});items.forEach(it=>{const cum=it.p1+it.p2+it.p3;if(it.b===0){it.st=cum>0?"manual":cum<0?"meneprace":"zero";}else{const p=(cum/it.b)*100;if(it.p2<0||it.p3<0)it.st="meneprace";else if(p>100)it.st="viceprace";else if(p>=99)it.st="done";else if(p>0)it.st="partial";else it.st="zero";}});return{items,auth:ad};}
+const fmt=n=>n.toLocaleString("cs-CZ",{maximumFractionDigits:0});
+const fmtK=n=>Math.abs(n)>=1e6?(n/1e6).toFixed(2).replace(".",",")+"\u00a0M":Math.abs(n)>=1e3?(n/1e3).toFixed(0)+"\u00a0tis.":fmt(n);
+const ST={done:{l:"Hotovo",c:"#34d399",bg:"#34d39920"},partial:{l:"Rozprac.",c:"#fbbf24",bg:"#fbbf2420"},viceprace:{l:"Vícepráce",c:"#f87171",bg:"#f8717120"},meneprace:{l:"Méněpr.",c:"#a78bfa",bg:"#a78bfa20"},manual:{l:"Ruční",c:"#22d3ee",bg:"#22d3ee20"},zero:{l:"Nezaháj.",c:"#64748b",bg:"#64748b15"}};
+const OC={VRN:"#fb923c","03-Int":"#60a5fa","04-Ext":"#34d399"};const PC=["#3b82f6","#8b5cf6","#f59e0b"];
+function Badge({st}){const s=ST[st]||ST.zero;return <span style={{display:"inline-block",padding:"1px 7px",borderRadius:99,fontSize:9,fontWeight:700,background:s.bg,color:s.c}}>{s.l}</span>;}
+function authFP(x){return x?[x.budget,x.p1,x.p2,x.p3||0,x.cum].join("|"):"";}
+function itemKey(i){return i.s+"|"+Math.round(i.b)+"|"+Math.round(i.p1);}
+function calcDiff(o,n){const ch=[],om={};o.forEach(i=>{const k=itemKey(i);if(!om[k])om[k]=[];om[k].push(i);});n.forEach(ni=>{const k=itemKey(ni);const nc=ni.p1+ni.p2+(ni.p3||0);if(om[k]&&om[k].length>0){const oi=om[k].shift();const oc=oi.p1+oi.p2+(oi.p3||0);if(Math.abs(oc-nc)>1)ch.push({type:"changed",item:ni,old:oi,diffCum:nc-oc});}else ch.push({type:"new",item:ni,diffCum:nc});});Object.values(om).forEach(arr=>arr.forEach(oi=>{const oc=oi.p1+oi.p2+(oi.p3||0);if(oc>0)ch.push({type:"removed",item:oi,diffCum:-oc});}));return ch.sort((a,b)=>Math.abs(b.diffCum)-Math.abs(a.diffCum));}
+const LS={save(k,d){try{localStorage.setItem(k,JSON.stringify(d));}catch(e){}},load(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}},list(p){const k=[];for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key.startsWith(p))k.push(key);}return k.sort().reverse();},del(k){try{localStorage.removeItem(k);}catch(e){}}};
+
+function App(){
+  const[items,setItems]=useState(initItems);const[auth,setAuth]=useState(AUTH);
+  const[tab,setTab]=useState("dash");const[q,setQ]=useState("");const[fObj,setFObj]=useState("all");const[fSt,setFSt]=useState("all");
+  const[sortK,setSortK]=useState(null);const[sortD,setSortD]=useState(null);
+  const[msgs,setMsgs]=useState([]);const[chatIn,setChatIn]=useState("");const[chatLoad,setChatLoad]=useState(false);
+  const[drag,setDrag]=useState(false);const[versions,setVersions]=useState(()=>LS.list("ver:"));const[diffData,setDiffData]=useState(null);const[toast,setToast]=useState(null);
+  const chatEnd=useRef(null);const fileRef=useRef(null);
+  const show=(msg,ok=true)=>{setToast({msg,ok});setTimeout(()=>setToast(null),4000);};
+  const a=auth;const pct=a.budget>0?(a.cum/a.budget*100):0;
+  const byStatus=useMemo(()=>_.countBy(items,"st"),[items]);
+  const filtered=useMemo(()=>{let f=items;if(fObj!=="all")f=f.filter(i=>i.s===fObj);if(fSt!=="all")f=f.filter(i=>i.st===fSt);if(q){const lq=q.toLowerCase();f=f.filter(i=>i.d.toLowerCase().includes(lq));}if(sortK)f=_.orderBy(f,[i=>{if(sortK==="cum")return i.p1+i.p2+(i.p3||0);if(sortK==="pct")return i.b>0?(i.p1+i.p2+(i.p3||0))/i.b:0;return i[sortK];}],[sortD]);return f;},[items,fObj,fSt,q,sortK,sortD]);
+  const fS=useMemo(()=>({b:_.sumBy(filtered,"b"),cum:_.sumBy(filtered,i=>i.p1+i.p2+(i.p3||0)),n:filtered.length}),[filtered]);
+  const toggle=k=>{if(sortK===k){if(sortD==="desc")setSortD("asc");else{setSortK(null);setSortD(null);}}else{setSortK(k);setSortD("desc");}};
+  const handleFile=useCallback(async file=>{if(!file)return;try{const buf=await file.arrayBuffer();const wb=XLSX.read(new Uint8Array(buf),{type:"array"});const result=parseXlsx(wb);if(!result||result.items.length===0){show("Nepodařilo se extrahovat.",false);return;}if(result.auth&&authFP(result.auth)===authFP(auth)){show("📋 Data jsou identická — již načteno.",true);return;}LS.save("ver:"+Date.now(),JSON.stringify({items,auth}));const diff=calcDiff(items.filter(i=>i.p1||i.p2||i.p3),result.items.filter(i=>i.p1||i.p2||i.p3));setItems(result.items);if(result.auth)setAuth(result.auth);LS.save("ver:"+Date.now(),JSON.stringify({items:result.items,auth:result.auth||auth,name:file.name}));setVersions(LS.list("ver:"));if(diff.length>0){setDiffData(diff);setTab("diff");show(result.items.length+" pol., "+diff.length+" změn.");}else{setTab("dash");show("✅ "+result.items.length+" pol. Bez změn.");}}catch(err){show("Chyba: "+err.message,false);}},[items,auth]);
+
+  /* CHAT via /api/chat serverless function */
+  const sendChat=async()=>{
+    if(!chatIn.trim())return;const txt=chatIn.trim();setChatIn("");
+    setMsgs(p=>[...p,{r:"u",t:txt}]);setChatLoad(true);
+    const top=items.filter(i=>i.p1||i.p2||i.p3).map(i=>i.s+": "+i.d.slice(0,40)+" b="+i.b+" cum="+(i.p1+i.p2+(i.p3||0))+" "+i.st).join("\n");
+    const ctx="Rozpočet="+a.budget+" Prostavěno="+a.cum+" ("+pct.toFixed(1)+"%). P1="+a.p1+" P2="+a.p2+" P3="+a.p3+".\nObjekty: "+JSON.stringify(a.byObj)+"\nPoložky:\n"+top;
+    try{
+      const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:txt,context:ctx})});
+      const d=await r.json();
+      if(r.ok){setMsgs(p=>[...p,{r:"a",t:d.answer}]);}
+      else{setMsgs(p=>[...p,{r:"a",t:"Chyba: "+(d.error||"Neznámá chyba")}]);}
+    }catch(e){setMsgs(p=>[...p,{r:"a",t:"Chyba připojení: "+e.message}]);}
+    setChatLoad(false);
+  };
+  useEffect(()=>{chatEnd.current?.scrollIntoView({behavior:"smooth"});},[msgs]);
+
+  const barData=useMemo(()=>Object.entries(a.byObj).map(([k,v])=>({name:k,budget:v.budget,done:(v.p1||0)+(v.p2||0)+(v.p3||0)})),[a]);
+  const pieData=useMemo(()=>Object.entries(byStatus).filter(([,v])=>v>0).map(([k,v])=>({name:ST[k]?.l||k,value:v,fill:ST[k]?.c||"#666"})),[byStatus]);
+  const C={bg:"#0c1021",card:"#131a2e",brd:"#1e2a42",txt:"#dfe6f0",mut:"#64748b",acc:"#60a5fa"};
+  const tabS=active=>({padding:"6px 14px",borderRadius:6,fontSize:12,fontWeight:600,cursor:"pointer",border:active?"1px solid "+C.acc:"1px solid transparent",background:active?C.acc+"18":"transparent",color:active?C.acc:C.mut});
+
+  return (
+    <div style={{fontFamily:"system-ui,sans-serif",background:C.bg,color:C.txt,minHeight:"100vh"}} onDragOver={e=>{e.preventDefault();setDrag(true);}} onDragLeave={()=>setDrag(false)} onDrop={e=>{e.preventDefault();setDrag(false);handleFile(e.dataTransfer.files[0]);}}>
+      {toast&&<div style={{position:"fixed",top:16,right:16,zIndex:999,padding:"10px 18px",borderRadius:8,fontSize:12,fontWeight:600,background:toast.ok?"#065f46":"#7f1d1d",color:"#fff",boxShadow:"0 4px 20px rgba(0,0,0,.4)"}}>{toast.msg}</div>}
+      {drag&&<div style={{position:"fixed",inset:0,background:"rgba(59,130,246,.12)",zIndex:998,display:"flex",alignItems:"center",justifyContent:"center"}}><div style={{background:C.card,padding:"36px 56px",borderRadius:12,border:"2px dashed "+C.acc,textAlign:"center"}}><div style={{fontSize:36,marginBottom:8}}>📊</div><div style={{fontSize:16,fontWeight:700}}>Přetáhněte xlsx</div></div></div>}
+      <div style={{maxWidth:1080,margin:"0 auto",padding:"16px 18px"}}>
+        <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:8,marginBottom:12}}>
+          <div><div style={{fontSize:17,fontWeight:700}}>🏗️ Prostavěnost RD Kunín č.p. 393</div><div style={{fontSize:10,color:C.mut,marginTop:1}}>PAS11/2024 · {a.p3?"3":"2"} období · {items.length} položek</div></div>
+          <button onClick={()=>fileRef.current?.click()} style={{padding:"6px 12px",borderRadius:6,border:"1px solid "+C.brd,background:C.card,color:C.acc,cursor:"pointer",fontSize:11,fontWeight:600}}>📂 Nahrát xlsx</button>
+          <input ref={fileRef} type="file" accept=".xlsx,.xls" style={{display:"none"}} onChange={e=>handleFile(e.target.files[0])}/>
+        </div>
+        <div style={{marginBottom:16}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:4,fontSize:12}}><span style={{fontWeight:600}}>Celková prostavěnost</span><span style={{fontFamily:"monospace",fontWeight:700}}>{fmt(a.cum)} Kč z {fmtK(a.budget)} Kč <span style={{color:C.acc}}>{pct.toFixed(1)}%</span></span></div><div style={{background:C.brd,borderRadius:5,height:10,overflow:"hidden"}}><div style={{width:Math.min(100,pct)+"%",height:"100%",borderRadius:5,background:"linear-gradient(90deg,#3b82f6,#10b981)",transition:"width .5s"}}/></div></div>
+        <div style={{display:"flex",gap:4,marginBottom:14,flexWrap:"wrap"}}>
+          {[["dash","📊 Dashboard"],["table","📋 Detail"],["chat","💬 Dotazy"],["diff","🔄 Změny"],["ver","📦 Verze"]].map(([id,l])=>(<div key={id} onClick={()=>setTab(id)} style={tabS(tab===id)}>{l}</div>))}
+        </div>
+
+        {tab==="dash"&&(<div>
+          <div style={{display:"flex",gap:8,flexWrap:"wrap",marginBottom:14}}>{[["Rozpočet",fmtK(a.budget)+" Kč",null,C.txt],["Prostavěno",fmtK(a.cum)+" Kč","P1: "+fmtK(a.p1)+" · P2: "+fmtK(a.p2)+" · P3: "+fmtK(a.p3),"#34d399"],["Zbývá",fmtK(a.budget-a.cum)+" Kč",(100-pct).toFixed(1)+"%","#fbbf24"],["Položky",""+items.length,(byStatus.done||0)+" hot. · "+(byStatus.viceprace||0)+" víc.",null]].map(([l,v,sub,ac],i)=>(<div key={i} style={{background:C.card,borderRadius:8,border:"1px solid "+C.brd,flex:"1 1 120px",minWidth:120,padding:"10px 14px"}}><div style={{fontSize:9,textTransform:"uppercase",letterSpacing:".08em",color:C.mut,fontWeight:600,marginBottom:2}}>{l}</div><div style={{fontSize:18,fontWeight:700,color:ac||C.txt,fontFamily:"monospace"}}>{v}</div>{sub&&<div style={{fontSize:9,color:C.mut,marginTop:1}}>{sub}</div>}</div>))}</div>
+          <div style={{display:"flex",gap:8,marginBottom:14,flexWrap:"wrap"}}>{[["P1 · k 25.12.25",a.p1,PC[0]],["P2 · k 18.3.",a.p2,PC[1]],["P3 · k 16.4.",a.p3,PC[2]]].map(([l,v,c],i)=>(<div key={i} style={{background:C.card,borderRadius:8,border:"1px solid "+C.brd,flex:"1 1 140px",padding:"10px 14px",borderLeft:"3px solid "+c}}><div style={{fontSize:9,color:C.mut,fontWeight:600}}>{l}</div><div style={{fontSize:16,fontWeight:700,fontFamily:"monospace",color:c,marginTop:2}}>{fmtK(v)} Kč</div></div>))}</div>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:10,marginBottom:14}}>
+            <div style={{background:C.card,borderRadius:8,border:"1px solid "+C.brd,padding:12}}><div style={{fontSize:11,fontWeight:600,marginBottom:8}}>Prostavěnost dle objektů</div><ResponsiveContainer width="100%" height={180}><BarChart data={barData} layout="vertical"><XAxis type="number" tickFormatter={fmtK} tick={{fill:C.mut,fontSize:9}}/><YAxis type="category" dataKey="name" width={45} tick={{fill:C.txt,fontSize:10}}/><Tooltip contentStyle={{background:"#1a2340",border:"1px solid #2a3a5e",borderRadius:6,fontSize:10,color:C.txt}} formatter={v=>[fmt(v)+" Kč"]}/><Bar dataKey="budget" name="Rozpočet" fill="#1e293b" radius={[0,3,3,0]}/><Bar dataKey="done" name="Prostavěno" radius={[0,3,3,0]}>{barData.map((d,i)=><Cell key={i} fill={OC[d.name]||"#60a5fa"}/>)}</Bar></BarChart></ResponsiveContainer></div>
+            <div style={{background:C.card,borderRadius:8,border:"1px solid "+C.brd,padding:12}}><div style={{fontSize:11,fontWeight:600,marginBottom:8}}>Stavové rozložení</div><ResponsiveContainer width="100%" height={180}><PieChart><Pie data={pieData} cx="50%" cy="50%" innerRadius={40} outerRadius={72} paddingAngle={2} dataKey="value">{pieData.map((d,i)=><Cell key={i} fill={d.fill}/>)}</Pie><Tooltip contentStyle={{background:"#1a2340",border:"1px solid #2a3a5e",borderRadius:6,fontSize:10,color:C.txt}}/><Legend wrapperStyle={{fontSize:9}}/></PieChart></ResponsiveContainer></div>
+          </div>
+          <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:8}}>{Object.entries(a.byObj).map(([k,v])=>{const cum=(v.p1||0)+(v.p2||0)+(v.p3||0);const op=v.budget>0?cum/v.budget*100:0;return(<div key={k} style={{background:C.card,borderRadius:8,border:"1px solid "+C.brd,padding:12,borderLeft:"3px solid "+(OC[k]||"#666")}}><div style={{display:"flex",justifyContent:"space-between",marginBottom:5}}><span style={{fontWeight:700,fontSize:12}}>{k}</span><span style={{fontFamily:"monospace",fontWeight:700,fontSize:12,color:OC[k]}}>{op.toFixed(1)}%</span></div><div style={{background:C.brd,borderRadius:3,height:5,overflow:"hidden",marginBottom:5}}><div style={{width:Math.min(100,op)+"%",height:"100%",borderRadius:3,background:"linear-gradient(90deg,#3b82f6,#10b981)"}}/></div><div style={{fontSize:9,color:C.mut}}>Rozpočet: {fmtK(v.budget)} · Done: {fmtK(cum)} Kč</div><div style={{fontSize:8,color:C.mut,marginTop:2}}>P1: {fmtK(v.p1||0)} · P2: {fmtK(v.p2||0)} · P3: {fmtK(v.p3||0)}</div></div>);})}</div>
+        </div>)}
+
+        {tab==="table"&&(<div>
+          <div style={{display:"flex",gap:5,marginBottom:8,flexWrap:"wrap"}}><input type="text" placeholder="🔍 Hledat..." value={q} onChange={e=>setQ(e.target.value)} style={{flex:"1 1 160px",padding:"6px 10px",borderRadius:6,border:"1px solid "+C.brd,background:C.card,color:C.txt,fontSize:11,outline:"none"}}/><select value={fObj} onChange={e=>setFObj(e.target.value)} style={{padding:"6px 8px",borderRadius:6,border:"1px solid "+C.brd,background:C.card,color:C.txt,fontSize:11}}><option value="all">Všechny obj.</option>{Object.keys(a.byObj).map(k=><option key={k} value={k}>{k}</option>)}</select><select value={fSt} onChange={e=>setFSt(e.target.value)} style={{padding:"6px 8px",borderRadius:6,border:"1px solid "+C.brd,background:C.card,color:C.txt,fontSize:11}}><option value="all">Všechny stavy</option>{Object.entries(ST).map(([k,v])=><option key={k} value={k}>{v.l}</option>)}</select></div>
+          <div style={{background:C.card,borderRadius:6,padding:"5px 10px",marginBottom:6,fontSize:10,display:"flex",gap:12,color:C.mut,border:"1px solid "+C.brd}}><span>{fS.n} pol.</span><span>Rozpočet: <b style={{color:C.txt}}>{fmt(fS.b)} Kč</b></span><span>Prostavěno: <b style={{color:"#34d399"}}>{fmt(fS.cum)} Kč</b></span></div>
+          <div style={{overflowX:"auto",background:C.card,borderRadius:8,border:"1px solid "+C.brd}}><table style={{width:"100%",borderCollapse:"collapse",fontSize:10}}><thead><tr style={{background:"#0a0f1d"}}>{[["s","Obj.",42],["d","Popis",null],["b","Rozpočet",75],["cum","Celkem",75],["pct","%",38],["st","Stav",66]].map(([k,l,w])=>(<th key={k} onClick={()=>toggle(k)} style={{padding:"7px 5px",textAlign:k==="d"?"left":"right",width:w||undefined,cursor:"pointer",userSelect:"none",borderBottom:"1px solid "+C.brd,fontWeight:600,color:C.mut,fontSize:9}}>{l} {sortK===k?(sortD==="asc"?"▲":"▼"):"⇅"}</th>))}</tr></thead><tbody>{filtered.map((it,i)=>{const cum=it.p1+it.p2+(it.p3||0);const pv=it.b>0?((cum/it.b)*100).toFixed(1):"–";return(<tr key={i} style={{borderBottom:"1px solid "+C.brd}}><td style={{padding:"5px",textAlign:"center"}}><span style={{background:(OC[it.s]||"#666")+"20",color:OC[it.s],padding:"1px 4px",borderRadius:3,fontSize:8,fontWeight:700}}>{it.s}</span></td><td style={{padding:"5px",maxWidth:260,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}} title={it.d}>{it.d}</td><td style={{padding:"5px",textAlign:"right",fontFamily:"monospace",fontSize:9}}>{it.b>0?fmt(it.b):"–"}</td><td style={{padding:"5px",textAlign:"right",fontFamily:"monospace",fontSize:9,fontWeight:600,color:cum>0?"#34d399":cum<0?"#f87171":C.mut}}>{cum?fmt(cum):"–"}</td><td style={{padding:"5px",textAlign:"right",fontFamily:"monospace",fontSize:9,fontWeight:700,color:pv!=="–"&&parseFloat(pv)>100?"#f87171":C.txt}}>{pv}{pv!=="–"?"%":""}</td><td style={{padding:"5px",textAlign:"center"}}><Badge st={it.st}/></td></tr>);})}</tbody></table></div>
+        </div>)}
+
+        {tab==="chat"&&(<div style={{background:C.card,borderRadius:8,border:"1px solid "+C.brd,display:"flex",flexDirection:"column",height:420}}>
+          <div style={{padding:"8px 12px",borderBottom:"1px solid "+C.brd,fontSize:11,fontWeight:600}}>💬 Dotazy k prostavěnosti <span style={{fontSize:9,color:C.mut,fontWeight:400,marginLeft:4}}>Claude Sonnet</span></div>
+          <div style={{flex:1,overflowY:"auto",padding:12,display:"flex",flexDirection:"column",gap:6}}>
+            {msgs.length===0&&(<div style={{color:C.mut,fontSize:11,textAlign:"center",marginTop:20}}><div style={{fontSize:24,marginBottom:4}}>🔍</div><div style={{fontWeight:600,marginBottom:8}}>Zeptejte se na cokoliv</div><div style={{display:"flex",flexDirection:"column",gap:4}}>{["Které položky mají vícepráce?","Kolik stojí omítky celkem?","Co se prostavělo v P3?","Kolik zbývá v exteriéru?"].map((ex,i)=>(<button key={i} onClick={()=>setChatIn(ex)} style={{padding:"5px 10px",borderRadius:6,border:"1px solid "+C.brd,background:"transparent",color:C.acc,cursor:"pointer",fontSize:10,textAlign:"left"}}>{ex}</button>))}</div></div>)}
+            {msgs.map((m,i)=>(<div key={i} style={{alignSelf:m.r==="u"?"flex-end":"flex-start",maxWidth:"80%",padding:"7px 10px",borderRadius:8,background:m.r==="u"?C.acc+"20":"#ffffff06",border:"1px solid "+(m.r==="u"?C.acc+"40":C.brd),fontSize:11,lineHeight:1.5,whiteSpace:"pre-wrap"}}>{m.t}</div>))}
+            {chatLoad&&(<div style={{alignSelf:"flex-start",padding:"7px 10px",borderRadius:8,background:"#ffffff06",border:"1px solid "+C.brd,fontSize:11,opacity:.5}}>Analyzuji...</div>)}
+            <div ref={chatEnd}/>
+          </div>
+          <div style={{padding:8,borderTop:"1px solid "+C.brd,display:"flex",gap:5}}>
+            <input type="text" placeholder="Dotaz k rozpočtu..." value={chatIn} onChange={e=>setChatIn(e.target.value)} onKeyDown={e=>e.key==="Enter"&&sendChat()} style={{flex:1,padding:"7px 10px",borderRadius:6,border:"1px solid "+C.brd,background:C.bg,color:C.txt,fontSize:11,outline:"none"}}/>
+            <button onClick={sendChat} disabled={chatLoad||!chatIn.trim()} style={{padding:"7px 14px",borderRadius:6,background:C.acc,color:"#fff",border:"none",cursor:"pointer",fontWeight:600,fontSize:11,opacity:chatLoad||!chatIn.trim()?.4:1}}>➤</button>
+          </div>
+        </div>)}
+
+        {tab==="diff"&&(<div style={{background:C.card,borderRadius:8,border:"1px solid "+C.brd,padding:16}}><div style={{fontSize:13,fontWeight:700,marginBottom:12}}>🔄 Změny</div>{!diffData||diffData.length===0?(<div style={{color:C.mut,fontSize:12,textAlign:"center",padding:40}}>✅ Žádné změny.</div>):(<div><div style={{fontSize:11,color:C.mut,marginBottom:10}}>{diffData.filter(d=>d.type==="changed").length} změn · {diffData.filter(d=>d.type==="new").length} nových · {diffData.filter(d=>d.type==="removed").length} odebraných</div><div style={{overflowX:"auto"}}><table style={{width:"100%",borderCollapse:"collapse",fontSize:10}}><thead><tr style={{background:"#0a0f1d"}}>{["Typ","Obj.","Popis","Před","Po","Rozdíl"].map((h,i)=>(<th key={i} style={{padding:"6px",textAlign:i>=3?"right":"left",borderBottom:"1px solid "+C.brd,color:C.mut,fontSize:9}}>{h}</th>))}</tr></thead><tbody>{diffData.map((d,i)=>{const isN=d.type==="new",isR=d.type==="removed";const oc=d.old?(d.old.p1+d.old.p2+(d.old.p3||0)):0;const nc=d.item.p1+d.item.p2+(d.item.p3||0);return(<tr key={i} style={{borderBottom:"1px solid "+C.brd,background:isN?"#065f4610":isR?"#7f1d1d10":"transparent"}}><td style={{padding:"5px"}}><span style={{fontSize:9,fontWeight:700,color:isN?"#34d399":isR?"#f87171":"#fbbf24"}}>{isN?"NOVÁ":isR?"ODEBR.":"ZMĚNA"}</span></td><td style={{padding:"5px"}}><span style={{background:(OC[d.item.s]||"#666")+"20",color:OC[d.item.s],padding:"1px 4px",borderRadius:3,fontSize:8,fontWeight:700}}>{d.item.s}</span></td><td style={{padding:"5px",maxWidth:250,overflow:"hidden",textOverflow:"ellipsis",whiteSpace:"nowrap"}}>{d.item.d}</td><td style={{padding:"5px",textAlign:"right",fontFamily:"monospace",fontSize:9}}>{isN?"–":fmt(oc)}</td><td style={{padding:"5px",textAlign:"right",fontFamily:"monospace",fontSize:9}}>{isR?"–":fmt(nc)}</td><td style={{padding:"5px",textAlign:"right",fontFamily:"monospace",fontSize:9,fontWeight:700,color:d.diffCum>0?"#34d399":d.diffCum<0?"#f87171":C.mut}}>{d.diffCum>0?"+":""}{fmt(d.diffCum)} Kč</td></tr>);})}</tbody></table></div><div style={{marginTop:10,padding:"8px 12px",background:C.brd+"40",borderRadius:6,fontSize:11}}>Čistý dopad: <b style={{color:_.sumBy(diffData,"diffCum")>=0?"#34d399":"#f87171",fontFamily:"monospace"}}>{_.sumBy(diffData,"diffCum")>=0?"+":""}{fmt(_.sumBy(diffData,"diffCum"))} Kč</b></div></div>)}</div>)}
+
+        {tab==="ver"&&(<div style={{background:C.card,borderRadius:8,border:"1px solid "+C.brd,padding:16}}><div style={{fontSize:13,fontWeight:700,marginBottom:12}}>📦 Verze</div>{versions.length===0?(<div style={{color:C.mut,fontSize:12,textAlign:"center",padding:40}}>Žádné verze.</div>):(<div style={{display:"flex",flexDirection:"column",gap:6}}>{versions.map((key,i)=>{const ts=parseInt(key.replace("ver:",""));const ds=isNaN(ts)?key:new Date(ts).toLocaleString("cs-CZ");return(<div key={key} style={{display:"flex",alignItems:"center",justifyContent:"space-between",padding:"8px 12px",background:i===0?C.acc+"10":"transparent",borderRadius:6,border:"1px solid "+C.brd}}><div><span style={{fontWeight:600,fontSize:12}}>{ds}</span>{i===0&&<span style={{marginLeft:8,fontSize:9,color:C.acc,fontWeight:700}}>POSLEDNÍ</span>}</div><div style={{display:"flex",gap:6}}><button onClick={()=>{const old=LS.load(key);if(old){const d=typeof old==="string"?JSON.parse(old):old;if(d.items){setDiffData(calcDiff(d.items.filter(x=>x.p1||x.p2||x.p3),items.filter(x=>x.p1||x.p2||x.p3)));setTab("diff");}}}} style={{padding:"4px 10px",borderRadius:4,border:"1px solid "+C.brd,background:"transparent",color:C.acc,cursor:"pointer",fontSize:10,fontWeight:600}}>🔄</button><button onClick={()=>{LS.del(key);setVersions(LS.list("ver:"));show("Smazáno.");}} style={{padding:"4px 8px",borderRadius:4,border:"1px solid "+C.brd,background:"transparent",color:"#f87171",cursor:"pointer",fontSize:10}}>🗑️</button></div></div>);})}</div>)}</div>)}
+      </div>
+    </div>
+  );
+}
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
