@@ -183,7 +183,9 @@ const D_Z=[
 {s:"04-Ext",d:"Přesun hmot procentní pro konstrukce klempířské v objektech v přes 6 do 12 m",b:351.71},
 {s:"04-Ext",d:"Hodinová zúčtovací sazba - nespecifikované položky týkající se naceněných prací",b:5000.0}
 ];
-function initItems(){const i=[...D_A];D_Z.forEach(z=>i.push({s:z.s,d:z.d,b:z.b,p1:0,p2:0,p3:0,st:"zero"}));return i;}
+function buildBaseline(){const i=[...D_A];D_Z.forEach(z=>i.push({s:z.s,d:z.d,b:z.b,p1:0,p2:0,p3:0,st:"zero"}));return i;}
+function initItems(){try{const saved=localStorage.getItem("current");if(saved){const d=JSON.parse(saved);if(d.items&&d.items.length>0)return d.items;}}catch(e){}return buildBaseline();}
+function initAuth(){try{const saved=localStorage.getItem("current");if(saved){const d=JSON.parse(saved);if(d.auth)return d.auth;}}catch(e){}return AUTH;}
 function gc(ws,r,c){const a=XLSX.utils.encode_cell({r,c});const cl=ws[a];return cl?cl.v:null;}
 function gn(ws,r,c){const v=gc(ws,r,c);return typeof v==="number"?v:0;}
 function gs(ws,r,c){const v=gc(ws,r,c);return v!=null?String(v).trim():"";}
@@ -199,7 +201,7 @@ function calcDiff(o,n){const ch=[],om={};o.forEach(i=>{const k=itemKey(i);if(!om
 const LS={save(k,d){try{localStorage.setItem(k,JSON.stringify(d));}catch(e){}},load(k){try{const v=localStorage.getItem(k);return v?JSON.parse(v):null;}catch(e){return null;}},list(p){const k=[];for(let i=0;i<localStorage.length;i++){const key=localStorage.key(i);if(key.startsWith(p))k.push(key);}return k.sort().reverse();},del(k){try{localStorage.removeItem(k);}catch(e){}}};
 
 function App(){
-  const[items,setItems]=useState(initItems);const[auth,setAuth]=useState(AUTH);
+  const[items,setItems]=useState(initItems);const[auth,setAuth]=useState(initAuth);
   const[tab,setTab]=useState("dash");const[q,setQ]=useState("");const[fObj,setFObj]=useState("all");const[fSt,setFSt]=useState("all");
   const[sortK,setSortK]=useState(null);const[sortD,setSortD]=useState(null);
   const[msgs,setMsgs]=useState([]);const[chatIn,setChatIn]=useState("");const[chatLoad,setChatLoad]=useState(false);
@@ -211,7 +213,7 @@ function App(){
   const filtered=useMemo(()=>{let f=items;if(fObj!=="all")f=f.filter(i=>i.s===fObj);if(fSt!=="all")f=f.filter(i=>i.st===fSt);if(q){const lq=q.toLowerCase();f=f.filter(i=>i.d.toLowerCase().includes(lq));}if(sortK)f=_.orderBy(f,[i=>{if(sortK==="cum")return i.p1+i.p2+(i.p3||0);if(sortK==="pct")return i.b>0?(i.p1+i.p2+(i.p3||0))/i.b:0;return i[sortK];}],[sortD]);return f;},[items,fObj,fSt,q,sortK,sortD]);
   const fS=useMemo(()=>({b:_.sumBy(filtered,"b"),cum:_.sumBy(filtered,i=>i.p1+i.p2+(i.p3||0)),n:filtered.length}),[filtered]);
   const toggle=k=>{if(sortK===k){if(sortD==="desc")setSortD("asc");else{setSortK(null);setSortD(null);}}else{setSortK(k);setSortD("desc");}};
-  const handleFile=useCallback(async file=>{if(!file)return;try{const buf=await file.arrayBuffer();const wb=XLSX.read(new Uint8Array(buf),{type:"array"});const result=parseXlsx(wb);if(!result||result.items.length===0){show("Nepodařilo se extrahovat.",false);return;}if(result.auth&&authFP(result.auth)===authFP(auth)){show("📋 Data jsou identická — již načteno.",true);return;}LS.save("ver:"+Date.now(),JSON.stringify({items,auth}));const diff=calcDiff(items.filter(i=>i.p1||i.p2||i.p3),result.items.filter(i=>i.p1||i.p2||i.p3));setItems(result.items);if(result.auth)setAuth(result.auth);LS.save("ver:"+Date.now(),JSON.stringify({items:result.items,auth:result.auth||auth,name:file.name}));setVersions(LS.list("ver:"));if(diff.length>0){setDiffData(diff);setTab("diff");show(result.items.length+" pol., "+diff.length+" změn.");}else{setTab("dash");show("✅ "+result.items.length+" pol. Bez změn.");}}catch(err){show("Chyba: "+err.message,false);}},[items,auth]);
+  const handleFile=useCallback(async file=>{if(!file)return;try{const buf=await file.arrayBuffer();const wb=XLSX.read(new Uint8Array(buf),{type:"array"});const result=parseXlsx(wb);if(!result||result.items.length===0){show("Nepodařilo se extrahovat.",false);return;}if(result.auth&&authFP(result.auth)===authFP(auth)){show("📋 Data jsou identická — již načteno.",true);return;}LS.save("ver:"+Date.now(),JSON.stringify({items,auth}));const diff=calcDiff(items.filter(i=>i.p1||i.p2||i.p3),result.items.filter(i=>i.p1||i.p2||i.p3));setItems(result.items);const newAuth=result.auth||auth;if(result.auth)setAuth(result.auth);LS.save("ver:"+Date.now(),JSON.stringify({items:result.items,auth:newAuth,name:file.name}));LS.save("current",JSON.stringify({items:result.items,auth:newAuth,uploaded:new Date().toISOString(),name:file.name}));setVersions(LS.list("ver:"));if(diff.length>0){setDiffData(diff);setTab("diff");show(result.items.length+" pol., "+diff.length+" změn.");}else{setTab("dash");show("✅ "+result.items.length+" pol. Bez změn.");}}catch(err){show("Chyba: "+err.message,false);}},[items,auth]);
   const sendChat=async()=>{if(!chatIn.trim())return;const txt=chatIn.trim();setChatIn("");setMsgs(p=>[...p,{r:"u",t:txt}]);setChatLoad(true);const top=items.filter(i=>i.p1||i.p2||i.p3).map(i=>i.s+": "+i.d.slice(0,40)+" b="+i.b+" cum="+(i.p1+i.p2+(i.p3||0))+" "+i.st).join("\n");const ctx="Rozpočet="+a.budget+" Prostavěno="+a.cum+" ("+pct.toFixed(1)+"%). P1="+a.p1+" P2="+a.p2+" P3="+a.p3+".\nObjekty: "+JSON.stringify(a.byObj)+"\nPoložky:\n"+top;try{const r=await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({question:txt,context:ctx})});const d=await r.json();if(r.ok){setMsgs(p=>[...p,{r:"a",t:d.answer}]);}else{setMsgs(p=>[...p,{r:"a",t:"Chyba: "+(d.error||"Neznámá")}]);}}catch(e){setMsgs(p=>[...p,{r:"a",t:"Chyba: "+e.message}]);}setChatLoad(false);};
   useEffect(()=>{chatEnd.current?.scrollIntoView({behavior:"smooth"});},[msgs]);
   const barData=useMemo(()=>Object.entries(a.byObj).map(([k,v])=>({name:k,budget:v.budget,done:(v.p1||0)+(v.p2||0)+(v.p3||0)})),[a]);
@@ -230,8 +232,12 @@ function App(){
         {/* HEADER */}
         <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",flexWrap:"wrap",gap:12,marginBottom:20}}>
           <div><div style={{fontSize:24,fontWeight:700,letterSpacing:"-0.02em"}}>🏗️ Prostavěnost RD Kunín č.p. 393</div><div style={{fontSize:14,color:C.mut,marginTop:3}}>PAS11/2024 · {a.p3?"3":"2"} období · {items.length} položek</div></div>
-          <button onClick={()=>fileRef.current?.click()} style={{padding:"10px 20px",borderRadius:10,border:"1px solid "+C.brd,background:C.card,color:C.acc,cursor:"pointer",fontSize:15,fontWeight:600}}>📂 Nahrát xlsx</button>
-          <input ref={fileRef} type="file" accept=".xlsx,.xls" style={{display:"none"}} onChange={e=>handleFile(e.target.files[0])}/>
+          <div style={{display:"flex",gap:8,alignItems:"center"}}>
+            {(()=>{try{const cur=localStorage.getItem("current");if(cur){const d=JSON.parse(cur);return <span style={{fontSize:12,color:C.mut}}>📌 {d.name||"Nahraná verze"} · {new Date(d.uploaded).toLocaleDateString("cs-CZ")}</span>;}}catch(e){}return null;})()}
+            <button onClick={()=>{if(confirm("Vrátit na původní data z 16.4.2025? Aktuální nahraný soubor bude zachován v Historii verzí."))  {localStorage.removeItem("current");setItems(buildBaseline());setAuth(AUTH);show("✅ Obnoveno na výchozí baseline.");}}} style={{padding:"10px 16px",borderRadius:10,border:"1px solid "+C.brd,background:C.card,color:C.mut,cursor:"pointer",fontSize:14,fontWeight:600}} title="Vrátit na výchozí data">↺ Reset</button>
+            <button onClick={()=>fileRef.current?.click()} style={{padding:"10px 20px",borderRadius:10,border:"1px solid "+C.brd,background:C.card,color:C.acc,cursor:"pointer",fontSize:15,fontWeight:600}}>📂 Nahrát xlsx</button>
+            <input ref={fileRef} type="file" accept=".xlsx,.xls" style={{display:"none"}} onChange={e=>handleFile(e.target.files[0])}/>
+          </div>
         </div>
         {/* PROGRESS */}
         <div style={{marginBottom:24}}>
