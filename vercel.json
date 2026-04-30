@@ -3,7 +3,7 @@
   "outputDirectory": "public",
   "framework": null,
   "functions": {
-    "api/chat.js": { "memory": 256, "maxDuration": 30 }
+    "api/chat.js": { "maxDuration": 30 }
   },
   "headers": [
     { "source": "/(.*)", "headers": [
