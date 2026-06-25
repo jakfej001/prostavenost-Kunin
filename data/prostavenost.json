@@ -1,0 +1,1412 @@
+{
+ "_meta": {
+  "description": "Source of truth pro dashboard Prostavěnost RD Kunín. Generátor generators/gen_dashboard.py z toho píše konstanty do public/index.html.",
+  "auth_note": "auth = autoritativní FAKTUROVANÉ hodnoty (P1-P3 z Rekapitulace, P4=k 8.6./18.6. dle faktury Wobau 262300047 = 327 300 Kč bez DPH). Detail (items) může u posledního období obsahovat i dosud nefakturované vícepráce.",
+  "periods_meta": [
+   {
+    "label": "k 25.12.25",
+    "zdroj": "Rekapitulace sloupec Prostavěnost"
+   },
+   {
+    "label": "k 18.3.",
+    "zdroj": "Rekapitulace"
+   },
+   {
+    "label": "k 16.4.",
+    "zdroj": "Rekapitulace"
+   },
+   {
+    "label": "k 8.6.",
+    "zdroj": "Faktura Wobau 262300047 (k 18.6.2026), 327 300 Kč bez DPH"
+   }
+  ]
+ },
+ "auth": {
+  "budget": 3527442,
+  "periods": [
+   "k 25.12.25",
+   "k 18.3.",
+   "k 16.4.",
+   "k 8.6."
+  ],
+  "totP": [
+   507958,
+   442829,
+   348683,
+   327300
+  ],
+  "cum": 1626770,
+  "byObj": {
+   "VRN": {
+    "budget": 175000,
+    "p": [
+     52500,
+     54000,
+     0,
+     34250
+    ]
+   },
+   "03-Int": {
+    "budget": 1766933,
+    "p": [
+     381919,
+     376861,
+     348683,
+     293050
+    ]
+   },
+   "04-Ext": {
+    "budget": 1585509,
+    "p": [
+     73538,
+     11968,
+     0,
+     0
+    ]
+   }
+  }
+ },
+ "items_active": [
+  {
+   "s": "VRN",
+   "d": "Zařízení staveniště",
+   "b": 15000,
+   "p": [
+    4500,
+    6000,
+    0,
+    2250
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "VRN",
+   "d": "Mimostaveništní doprava materiálů, výrobků a strojů",
+   "b": 70000,
+   "p": [
+    21000,
+    21000,
+    0,
+    14000
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "VRN",
+   "d": "Denní doprava pracovníků na pracoviště",
+   "b": 90000,
+   "p": [
+    27000,
+    27000,
+    0,
+    18000
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "03-Int",
+   "d": "Distanční lišty výztuže základových desek",
+   "b": 1652.4,
+   "p": [
+    1760.4,
+    0,
+    0,
+    0
+   ],
+   "st": "viceprace"
+  },
+  {
+   "s": "03-Int",
+   "d": "Základové desky ze ŽB bez zvýšených nároků na prostředí tř. C 20/25",
+   "b": 12034.98,
+   "p": [
+    13608.18,
+    0,
+    0,
+    0
+   ],
+   "st": "viceprace"
+  },
+  {
+   "s": "03-Int",
+   "d": "Výztuž základových desek svařovanými sítěmi Kari",
+   "b": 8158.8,
+   "p": [
+    8158.8,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Výztuž základových pasů betonářskou ocelí 10 505 (R)",
+   "b": 3753.6,
+   "p": [
+    3753.6,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Zazdívka otvorů ve zdivu nadzákladovém pl do 1 m2 cihlami děrovanými broušenými ",
+   "b": 14057.1,
+   "p": [
+    14057.1,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Válcované nosníky výšky do 120 mm dodatečně osazované do připravených otvorů",
+   "b": 3505.53,
+   "p": [
+    3505.53,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Válcované nosníky výšky přes 120 do 240 mm dodatečně osazované do připravených o",
+   "b": 21780.86,
+   "p": [
+    21780.86,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Plentování jednostranné v do 200 mm válcovaných nosníků cihlami",
+   "b": 5452.18,
+   "p": [
+    0,
+    5452.18,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž kontaktního zateplení vnějších podhledů lepením a mechanickým kotvením po",
+   "b": 15211.45,
+   "p": [
+    15211.45,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Sádrová nebo vápenosádrová omítka hladká jednovrstvá vnitřních stěn nanášená str",
+   "b": 158852.88,
+   "p": [
+    0,
+    0,
+    196757.88,
+    0
+   ],
+   "st": "viceprace"
+  },
+  {
+   "s": "03-Int",
+   "d": "Příplatek k omítce za přípravu pro zapušťený sokl podlahové krytiny",
+   "b": 10089.1,
+   "p": [
+    0,
+    0,
+    10089.1,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Sádrová nebo vápenosádrová omítka hladká jednovrstvá vnitřních špalet",
+   "b": 31694.2,
+   "p": [
+    0,
+    0,
+    31694.2,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Penetrační disperzní nátěr vnitřních stěn nanášený ručně",
+   "b": 31233.09,
+   "p": [
+    0,
+    0,
+    31233.09,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Pletivo sklovláknité vnitřních stěn provizorně přichycené",
+   "b": 78847.51,
+   "p": [
+    0,
+    0,
+    56771.89,
+    0
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "03-Int",
+   "d": "Záhozy po vodoinstalaci, elektroinstalaci, vytápění",
+   "b": 15000,
+   "p": [
+    0,
+    0,
+    15000,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Zakrytí výplní otvorů fólií přilepenou na začišťovací lišty",
+   "b": 4834.05,
+   "p": [
+    0,
+    0,
+    4834.05,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Obvodová dilatace podlahovým páskem z pěnového PE mezi stěnou a mazaninou nebo p",
+   "b": 11015.62,
+   "p": [
+    0,
+    0,
+    0,
+    11015.62
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Lešení pomocné pro objekty pozemních staveb s lešeňovou podlahou v do 1,9 m zatí",
+   "b": 18690.2,
+   "p": [
+    5607.06,
+    5607.06,
+    0,
+    0
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "03-Int",
+   "d": "Vyčištění budov bytové a občanské výstavby při výšce podlaží do 4 m",
+   "b": 56620.62,
+   "p": [
+    16986.19,
+    16986.19,
+    0,
+    14155.16
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "03-Int",
+   "d": "Vybourání překladů prefabrikovaných",
+   "b": 3507,
+   "p": [
+    3507,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Vnitrostaveništní doprava suti a vybouraných hmot pro budovy v přes 6 do 9 m s o",
+   "b": 2354.81,
+   "p": [
+    2354.81,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Přesun hmot pro budovy zděné v přes 6 do 12 m",
+   "b": 23032.56,
+   "p": [
+    6909.77,
+    0,
+    2303.26,
+    5758.14
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "03-Int",
+   "d": "Provedení izolace proti zemní vlhkosti vodorovné za studena lakem asfaltovým",
+   "b": 800.19,
+   "p": [
+    3265.64,
+    0,
+    0,
+    1137.76
+   ],
+   "st": "viceprace"
+  },
+  {
+   "s": "03-Int",
+   "d": "Provedení izolace proti zemní vlhkosti pásy přitavením vodorovné NAIP",
+   "b": 7706.54,
+   "p": [
+    66279.81,
+    0,
+    0,
+    19168.22
+   ],
+   "st": "viceprace"
+  },
+  {
+   "s": "03-Int",
+   "d": "Přesun hmot procentní pro izolace proti vodě, vlhkosti a plynům v objektech v př",
+   "b": 150.57,
+   "p": [
+    1085.76,
+    0,
+    0,
+    313.7
+   ],
+   "st": "viceprace"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž izolace tepelné vrchem stropů volně kladenými rohožemi, pásy, dílci, desk",
+   "b": 51037.39,
+   "p": [
+    15995.31,
+    30693.95,
+    0,
+    4348.13
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž izolace tepelné spodem stropů s přibitím rohoží, pásů, dílců, desek",
+   "b": 29647.06,
+   "p": [
+    0,
+    29647.06,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž izolace tepelné podlah volně kladenými rohožemi, pásy, dílci, deskami 1 v",
+   "b": 66727.2,
+   "p": [
+    0,
+    0,
+    0,
+    66690.05
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž izolace tepelné podlah volně kladenými rohožemi, pásy, dílci, deskami 2 v",
+   "b": 63602.93,
+   "p": [
+    0,
+    0,
+    0,
+    17870.65
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "03-Int",
+   "d": "Vyrovnání podlah pro uložení TI - pískováním, vyžezáváním",
+   "b": 16253.55,
+   "p": [
+    0,
+    0,
+    0,
+    16253.55
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Příplatek k montáži izolace tepelné podlah za zvýšenou pracnost",
+   "b": 13481,
+   "p": [
+    0,
+    0,
+    0,
+    13481
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž izolace tepelné střech šikmých kladené volně mezi krokve rohoží, pásů, de",
+   "b": 84528.74,
+   "p": [
+    84528.74,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž izolace tepelné střech šikmých kladené volně pod krokve rohoží, pásů, des",
+   "b": 151610.82,
+   "p": [
+    0,
+    151610.82,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Přesun hmot procentní pro izolace tepelné v objektech v přes 6 do 12 m",
+   "b": 6918.27,
+   "p": [
+    2075.48,
+    2075.48,
+    0,
+    2075.48
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž stropního trámu z hraněného řeziva průřezové pl do 75 cm2 mezi nosnou kci",
+   "b": 26046.84,
+   "p": [
+    0,
+    26046.84,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Spojovací prostředky pro montáž záklopu, stropnice a podbíjení",
+   "b": 1345,
+   "p": [
+    0,
+    1345,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Přesun hmot procentní pro kce tesařské v objektech v přes 6 do 12 m",
+   "b": 840.93,
+   "p": [
+    0,
+    840.93,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž parotěsné zábrany do SDK podhledu",
+   "b": 38796,
+   "p": [
+    0,
+    38796,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Příplatek za vyšší pracnost montáže parotěsné zábrany",
+   "b": 15000,
+   "p": [
+    0,
+    15000,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Přesun hmot procentní pro konstrukce montované z desek v objektech v přes 6 do 1",
+   "b": 3019.48,
+   "p": [
+    0,
+    603.9,
+    0,
+    0
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "03-Int",
+   "d": "Hodinová zúčtovací sazba stavební dělník - nespecifikované položky týkající se n",
+   "b": 12500,
+   "p": [
+    0,
+    12500,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Hodinová zúčtovací sazba -  nespecifikované položky týkající se naceněných prací",
+   "b": 11425,
+   "p": [
+    0,
+    0,
+    0,
+    11425
+   ],
+   "st": "done"
+  },
+  {
+   "s": "03-Int",
+   "d": "Vedlejší rozpočtové náklady",
+   "b": 0,
+   "p": [
+    0,
+    0,
+    0,
+    13775
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "materiál - pásky, hydroizolacni sterka, akryl, silikon, lepidla,",
+   "b": 0,
+   "p": [
+    0,
+    0,
+    0,
+    3500
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "odkop garáže + bourání venkovní zídky 19.5 a 20.5.",
+   "b": 0,
+   "p": [
+    0,
+    0,
+    0,
+    6000
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "bude dopřesněno",
+   "b": 0,
+   "p": [
+    0,
+    10000,
+    0,
+    13000
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "opotřebení vrtáků",
+   "b": 0,
+   "p": [
+    0,
+    0,
+    0,
+    2500
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "POLOŽKY Z BOURACÍCH PRACÍ, KTERÉ NEBYLY ÚČTOVÁNY (POL 23,24)",
+   "b": 0,
+   "p": [
+    11068,
+    11800,
+    0,
+    6500
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "převoz suti okolo domu do díry 2*8",
+   "b": 0,
+   "p": [
+    0,
+    1200,
+    0,
+    5600
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "Řádek 1193",
+   "b": 0,
+   "p": [
+    0,
+    4000,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "DEMONTÁŽ HYDROIZOLACE",
+   "b": 0,
+   "p": [
+    10000,
+    0,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "krb",
+   "b": 0,
+   "p": [
+    0,
+    0,
+    0,
+    134102
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "19*1300 - KASTLÍKY",
+   "b": 0,
+   "p": [
+    24700,
+    0,
+    0,
+    -55000
+   ],
+   "st": "meneprace"
+  },
+  {
+   "s": "03-Int",
+   "d": "500*3*2*8 - OTVORY",
+   "b": 0,
+   "p": [
+    24000,
+    3500,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "2*500*3 - BOURACKY",
+   "b": 0,
+   "p": [
+    3000,
+    1800,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "80*13*8 - KM",
+   "b": 0,
+   "p": [
+    8320,
+    0,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "3*350*8 - OSOBY",
+   "b": 0,
+   "p": [
+    8400,
+    0,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "Řádek 1203",
+   "b": 0,
+   "p": [
+    0,
+    3095.4,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "VCP Z KONTROLNÍHO DNE 17.12",
+   "b": 0,
+   "p": [
+    0,
+    4260,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "bourání otvorů prahů a desky před vstupem 4h",
+   "b": 0,
+   "p": [
+    2000,
+    0,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Hloubení jam nezapažených v hornině třídy těžitelnosti I skupiny 3 objem do 100 ",
+   "b": 24124.58,
+   "p": [
+    9150,
+    0,
+    0,
+    0
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Základové pasy z betonu tř. C 20/25",
+   "b": 3188.36,
+   "p": [
+    3188.36,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Příplatek k základový pásům z betonu tř. C 20/25 za odlamování hran stěn výkopu ",
+   "b": 624.75,
+   "p": [
+    624.75,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Navrtavání základových pásů pro vyztužení základové zdi",
+   "b": 1500,
+   "p": [
+    1500,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Základová zeď tl přes 150 do 200 mm z tvárnic ztraceného bednění včetně výplně z",
+   "b": 7102.1,
+   "p": [
+    7102.1,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Výztuž základových zdí nosných betonářskou ocelí 10 505",
+   "b": 3682.78,
+   "p": [
+    3682.78,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Podsyp pod základové konstrukce se zhutněním z betonového recyklátu",
+   "b": 15303.12,
+   "p": [
+    5000,
+    0,
+    0,
+    0
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Distanční lišty výztuže základových desek",
+   "b": 257.85,
+   "p": [
+    257.85,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Základové desky ze ŽB bez zvýšených nároků na prostředí tř. C 20/25",
+   "b": 2505.42,
+   "p": [
+    5505.42,
+    0,
+    0,
+    0
+   ],
+   "st": "viceprace"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Zřízení bednění základových desek",
+   "b": 1129.74,
+   "p": [
+    2790.11,
+    0,
+    0,
+    0
+   ],
+   "st": "viceprace"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Odstranění bednění základových desek",
+   "b": 237.94,
+   "p": [
+    237.94,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Výztuž základových desek svařovanými sítěmi Kari",
+   "b": 1828.36,
+   "p": [
+    1828.36,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Provedení izolace proti zemní vlhkosti svislé za studena lakem asfaltovým",
+   "b": 4927.72,
+   "p": [
+    3963.09,
+    -661.03,
+    0,
+    0
+   ],
+   "st": "meneprace"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Provedení izolace proti zemní vlhkosti pásy přitavením svislé NAIP",
+   "b": 35017.38,
+   "p": [
+    23287.68,
+    -7762.56,
+    0,
+    0
+   ],
+   "st": "meneprace"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Přesun hmot procentní pro izolace proti vodě, vlhkosti a plynům v objektech v př",
+   "b": 1069.68,
+   "p": [
+    1069.68,
+    0,
+    0,
+    0
+   ],
+   "st": "done"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž izolace tepelné stěn lepením celoplošně rohoží, pásů, dílců, desek",
+   "b": 63605.91,
+   "p": [
+    0,
+    17891.5,
+    0,
+    0
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Hodinová zúčtovací sazba stavební dělník - nespecifikované položky týkající se n",
+   "b": 9000,
+   "p": [
+    0,
+    2500,
+    0,
+    0
+   ],
+   "st": "partial"
+  },
+  {
+   "s": "04-Ext",
+   "d": "vnejsí sokl",
+   "b": 0,
+   "p": [
+    2800,
+    0,
+    0,
+    0
+   ],
+   "st": "manual"
+  },
+  {
+   "s": "04-Ext",
+   "d": "Řádek 669",
+   "b": 0,
+   "p": [
+    1550,
+    0,
+    0,
+    0
+   ],
+   "st": "manual"
+  }
+ ],
+ "items_zero": [
+  {
+   "s": "03-Int",
+   "d": "Navrtávka do obvodu + chem kotva",
+   "b": 7500
+  },
+  {
+   "s": "03-Int",
+   "d": "Zazdívka otvorů ve zdivu nadzákladovém pl do 1 m2 cihlami děrovanými broušenými ",
+   "b": 1660.35
+  },
+  {
+   "s": "03-Int",
+   "d": "Zazdívka otvorů ve zdivu nadzákladovém pl do 1 m2 cihlami děrovanými broušenými ",
+   "b": 5449.23
+  },
+  {
+   "s": "03-Int",
+   "d": "Pletivo sklovláknité vnitřních stěn vtlačené do tmelu",
+   "b": 23708.1
+  },
+  {
+   "s": "03-Int",
+   "d": "Pletivo sklovláknité vnitřních špalet vtlačené do tmelu",
+   "b": 1912.32
+  },
+  {
+   "s": "03-Int",
+   "d": "Sádrová nebo vápenosádrová omítka hladká jednovrstvá vnitřních stropů rovných na",
+   "b": 33869.41
+  },
+  {
+   "s": "03-Int",
+   "d": "Sádrová omítka hladká jednovrstvá vnitřních schodišťových konstrukcí nanášená st",
+   "b": 2035.89
+  },
+  {
+   "s": "03-Int",
+   "d": "Penetrační disperzní nátěr vnitřních stropů nanášený ručně",
+   "b": 8470.77
+  },
+  {
+   "s": "03-Int",
+   "d": "Zakrytí konstrukcí a předmětů",
+   "b": 10000
+  },
+  {
+   "s": "03-Int",
+   "d": "Mazanina tl přes 50 do 80 mm z betonu prostého bez zvýšených nároků na prostředí",
+   "b": 840.47
+  },
+  {
+   "s": "03-Int",
+   "d": "Potěr anhydritový samonivelační litý C25 přes 45 do 50 mm",
+   "b": 130236.2
+  },
+  {
+   "s": "03-Int",
+   "d": "Příplatek k anhydritovému samonivelačnímu litému potěru C25 ZKD 5 mm tl",
+   "b": 10713.64
+  },
+  {
+   "s": "03-Int",
+   "d": "Broušení nerovností betonových podlah do 2 mm - stržení šlemu",
+   "b": 18681.04
+  },
+  {
+   "s": "03-Int",
+   "d": "Vyrovnávací cementový potěr tl přes 20 do 30 mm ze suchých směsí provedený v pás",
+   "b": 1930.38
+  },
+  {
+   "s": "03-Int",
+   "d": "Osazování zárubní dveřních skrytých do 2,5 m2",
+   "b": 14950
+  },
+  {
+   "s": "03-Int",
+   "d": "Broušení stávajících betonových stupňů schodiště úběr do 3mm",
+   "b": 6821.52
+  },
+  {
+   "s": "03-Int",
+   "d": "Příplatek k broušení stávajících betonových stupňů schodiště za každý další 1 mm",
+   "b": 8922.6
+  },
+  {
+   "s": "03-Int",
+   "d": "Jádrové vrty diamantovými korunkami do stavebních materiálů",
+   "b": 1800
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž izolace tepelné podlah, stropů vrchem nebo střech překrytí fólií s přelep",
+   "b": 20828.3
+  },
+  {
+   "s": "03-Int",
+   "d": "SDK příčka tl 100 mm profil CW+UW 50 desky 2xA 12,5 s izolací EI 60 Rw do 51 dB",
+   "b": 33699.59
+  },
+  {
+   "s": "03-Int",
+   "d": "SDK příčka tl 125 mm profil CW+UW 75 desky 2xA 12,5 s izolací EI 60 Rw do 53 dB",
+   "b": 10857.74
+  },
+  {
+   "s": "03-Int",
+   "d": "SDK příčka mezibytová tl 155 mm zdvojený profil CW+UW 50 desky 2x akustická 12,5",
+   "b": 37537.38
+  },
+  {
+   "s": "03-Int",
+   "d": "SDK stěna předsazená tl 112,5 mm profil CW+UW 100 deska 1xH2 12,5 bez izolace EI",
+   "b": 8550.11
+  },
+  {
+   "s": "03-Int",
+   "d": "SDK stěna předsazená pro osazení závěsného WC tl 150 - 250 mm profil CW+UW 50 de",
+   "b": 11525.69
+  },
+  {
+   "s": "03-Int",
+   "d": "SDK podhled desky 1xA 12,5 bez izolace dvouvrstvá spodní kce profil CD+UD",
+   "b": 93767.56
+  },
+  {
+   "s": "03-Int",
+   "d": "SDK podkroví deska 1xA 12,5 bez izolace jednovrstvá spodní kce profil CD+UD na p",
+   "b": 102227.52
+  },
+  {
+   "s": "03-Int",
+   "d": "SDK podkroví - opracování kolem střešního okna",
+   "b": 7500
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž sklápěcích půdních schodů",
+   "b": 9450
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž nosného dřevěného rámu pro sklápěcí půdní schody",
+   "b": 2920
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž sklápěcích půdních schodů",
+   "b": 14255.97
+  },
+  {
+   "s": "03-Int",
+   "d": "Montáž nosného dřevěného rámu pro sklápěcí půdní schody",
+   "b": 2920
+  },
+  {
+   "s": "04-Ext",
+   "d": "Hloubení rýh nezapažených š do 800 mm v hornině třídy těžitelnosti I skupiny 3 o",
+   "b": 1323
+  },
+  {
+   "s": "04-Ext",
+   "d": "Vodorovné přemístění přes 20 do 50 m výkopku/sypaniny z horniny třídy těžitelnos",
+   "b": 6659.71
+  },
+  {
+   "s": "04-Ext",
+   "d": "Nakládání výkopku z hornin třídy těžitelnosti I skupiny 1 až 3 přes 100 m3",
+   "b": 5993.34
+  },
+  {
+   "s": "04-Ext",
+   "d": "Uložení sypaniny na skládky nebo meziskládky",
+   "b": 2222.91
+  },
+  {
+   "s": "04-Ext",
+   "d": "Zásyp jam, šachet rýh nebo kolem objektů sypaninou se zhutněním",
+   "b": 12990.16
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž kontaktního zateplení vnějších podhledů lepením a mechanickým kotvením de",
+   "b": 5201.03
+  },
+  {
+   "s": "04-Ext",
+   "d": "Zakrytí výplní otvorů fólií přilepenou na začišťovací lišty",
+   "b": 1980.06
+  },
+  {
+   "s": "04-Ext",
+   "d": "Penetrační nátěr vnějších stěn nanášený ručně",
+   "b": 16417.15
+  },
+  {
+   "s": "04-Ext",
+   "d": "Očištění vnějších ploch čističem s následným omytím tlakovou vodou",
+   "b": 11963.76
+  },
+  {
+   "s": "04-Ext",
+   "d": "Provedení adhezního můstku",
+   "b": 21169.05
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž kontaktního zateplení vnějších podhledů lepením a mechanickým kotvením po",
+   "b": 121866.71
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž kontaktního zateplení vnějších podhledů lepením a mechanickým kotvením po",
+   "b": 15754.48
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž kontaktního zateplení vnějších stěn lepením a mechanickým kotvením polyst",
+   "b": 3734.18
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž  kontaktního zateplení lepením a kotvením kotvy s přerušeným tepelným mos",
+   "b": 437711.93
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž kontaktního zateplení vnějšího ostění, nadpraží nebo parapetu hl. špalety",
+   "b": 29558.51
+  },
+  {
+   "s": "04-Ext",
+   "d": "Sklovláknité pletivo vnějších stěn vtlačené do tmelu",
+   "b": 7296.26
+  },
+  {
+   "s": "04-Ext",
+   "d": "D+M Vyspádování pod vnější parapety z EPS s přestěrkováním tmelem a vyztužením s",
+   "b": 7952
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž profilů kontaktního zateplení",
+   "b": 18000
+  },
+  {
+   "s": "04-Ext",
+   "d": "Úprava zateplovacího a pojezdového systému u předokenních žaluzií",
+   "b": 65100
+  },
+  {
+   "s": "04-Ext",
+   "d": "Penetrační silikátový nátěr vnějších pastovitých tenkovrstvých omítek podhledů",
+   "b": 7329.9
+  },
+  {
+   "s": "04-Ext",
+   "d": "Penetrační silikátový nátěr vnějších pastovitých tenkovrstvých omítek stěn",
+   "b": 17865.53
+  },
+  {
+   "s": "04-Ext",
+   "d": "Penetrační silikátový nátěr vnějších pastovitých tenkovrstvých omítek špalet",
+   "b": 1737.43
+  },
+  {
+   "s": "04-Ext",
+   "d": "Tenkovrstvá silikonová zatíraná omítka zrnitost 1,5 mm vnějších podhledů",
+   "b": 49892.7
+  },
+  {
+   "s": "04-Ext",
+   "d": "Tenkovrstvá silikonová zatíraná omítka zrnitost 1,5 mm vnějších stěn",
+   "b": 125676.59
+  },
+  {
+   "s": "04-Ext",
+   "d": "Tenkovrstvá silikonová zrnitá omítka zrnitost 1,5 mm vnějších špalet",
+   "b": 13782.75
+  },
+  {
+   "s": "04-Ext",
+   "d": "Mazanina tl přes 80 do 120 mm z betonu prostého bez zvýšených nároků na prostřed",
+   "b": 3258.56
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž lešení řadového rámového lehkého zatížení do 200 kg/m2 š od 0,6 do 0,9 m ",
+   "b": 26675.11
+  },
+  {
+   "s": "04-Ext",
+   "d": "Příplatek k lešení řadovému rámovému lehkému do 200 kg/m2 š od 0,6 do 0,9 m v do",
+   "b": 46193.78
+  },
+  {
+   "s": "04-Ext",
+   "d": "Demontáž lešení řadového rámového lehkého zatížení do 200 kg/m2 š od 0,6 do 0,9 ",
+   "b": 16279.52
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž ochranné sítě z textilie z umělých vláken",
+   "b": 7753.08
+  },
+  {
+   "s": "04-Ext",
+   "d": "Příplatek k ochranné síti za každý den použití",
+   "b": 4414.99
+  },
+  {
+   "s": "04-Ext",
+   "d": "Dovoz a odvoz lešení řadového do 10 km včetně naložení a složení",
+   "b": 13961.85
+  },
+  {
+   "s": "04-Ext",
+   "d": "Příplatek k ceně dovozu a odvozu lešení řadového ZKD 10 km přes 10 km",
+   "b": 6799.42
+  },
+  {
+   "s": "04-Ext",
+   "d": "Srovnání původního zdiva pro instalaci hydroizolace",
+   "b": 5000
+  },
+  {
+   "s": "04-Ext",
+   "d": "Provedení izolace proti zemní vlhkosti svislé z nopové fólie výška nopu do 20 mm",
+   "b": 15488.74
+  },
+  {
+   "s": "04-Ext",
+   "d": "Hromosvod pro RD - odhad",
+   "b": 75000
+  },
+  {
+   "s": "04-Ext",
+   "d": "Montáž podbíjení střech šikmých vnějšího přesahu š přes 0,8 m z palubek včetně p",
+   "b": 134151.75
+  },
+  {
+   "s": "04-Ext",
+   "d": "D+M Oplechování parapetů rovných celoplošně lepené z Al plechu",
+   "b": 40896
+  },
+  {
+   "s": "04-Ext",
+   "d": "Přesun hmot procentní pro konstrukce klempířské v objektech v přes 6 do 12 m",
+   "b": 351.71
+  },
+  {
+   "s": "04-Ext",
+   "d": "Hodinová zúčtovací sazba - nespecifikované položky týkající se naceněných prací",
+   "b": 5000
+  }
+ ]
+}
