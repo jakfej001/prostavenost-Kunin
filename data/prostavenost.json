@@ -1,7 +1,7 @@
 {
  "_meta": {
   "description": "Source of truth pro dashboard Prostavěnost RD Kunín. Generátor generators/gen_dashboard.py z toho píše konstanty do public/index.html.",
-  "auth_note": "auth = autoritativní FAKTUROVANÉ hodnoty (P1-P3 z Rekapitulace, P4=k 8.6./18.6. dle faktury Wobau 262300047 = 327 300 Kč bez DPH). Detail (items) může u posledního období obsahovat i dosud nefakturované vícepráce.",
+  "auth_note": "auth = autoritativní FAKTUROVANÉ hodnoty (P1-P3 Rekapitulace, P4 faktura Wobau 262300047 = 327 300 Kč bez DPH). Pozn.: sloupec 8.6. ve zdroji má zaseknutý součet — řádky O3 itemizují 313 669, ale fakturováno/Rekap = 293 050; rozdíl 20 619 srovnán řádkou 'Srovnání na fakturovaný stav', ať Detail = Dashboard = 327 300.",
   "periods_meta": [
    {
     "label": "k 25.12.25",
@@ -1050,6 +1050,18 @@
     0
    ],
    "st": "manual"
+  },
+  {
+   "s": "03-Int",
+   "d": "Srovnání na fakturovaný stav k 8.6. (Rekapitulace)",
+   "b": 0,
+   "p": [
+    0,
+    0,
+    0,
+    -20619.46
+   ],
+   "st": "meneprace"
   }
  ],
  "items_zero": [
